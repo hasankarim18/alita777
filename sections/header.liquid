@@ -1,5 +1,5 @@
 {%- liquid
-  assign menu = section.settings.header_menu
+  assign menu = linklists[section.settings.header_menu]
 -%}
 
 <div class="relative bg-white">
@@ -14,35 +14,22 @@
 
       <!-- NAVIGATION MENU -->
       <nav class="hidden md:flex space-x-10">
-        {{ menu }}
         {% if menu.links.size > 0 %}
           {% for link in menu.links %}
             <div class="relative">
               <a href="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-900">{{ link.title }}</a>
             </div>
+            {% if link.links != blank %}
+              <div class="relative">
+                <button type="button" class="inline-flex items-center text-base text-gray-500 hover:text-gray-900">
+                  {{ link.links.title }}
+                </button>
+              </div>
+            {% endif %}
           {% endfor %}
         {% else %}
           <div>Menu not found</div>
         {% endif %}
-        {% comment %}
-          {% comment %}
-            {% for link in collection %}
-            {% endfor %}
-          {% endcomment %}
-        {% endcomment %}
-        <div class="relative">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Link 1</a>
-        </div>
-
-        <div class="relative">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Link 1</a>
-        </div>
-
-        <div class="relative">
-          <button type="button" class="inline-flex items-center text-base text-gray-500 hover:text-gray-900">
-            Link +
-          </button>
-        </div>
       </nav>
 
       <div class="hidden md:flex items-center justify-end md:flex-1 space-x-5">
