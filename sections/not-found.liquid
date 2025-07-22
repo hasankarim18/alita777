@@ -1,0 +1,67 @@
+<div class="max-w-7xl mx-auto my-0 min-h-[80vh] ">
+  <div class="min-h-[80vh] flex justify-center flex-col items-center">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'page_title' %}
+          <h1 class="text-center text-3xl font-bold mb-4">
+            {{ block.settings.page_title }}
+          </h1>
+        {% when 'back_link' %}
+          <div>
+            <a href="{{ block.settings.back_url }}"> Back to Home </a>
+          </div>
+        {% else %}
+          <div>Bloks not found</div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Page",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "page_title",
+      "name": "Page Title",
+      "settings": [
+        {
+          "type": "text",
+          "id": "page_title",
+          "label": "Title",
+          "default": "Page Not Found!!!"
+        }
+      ]
+    },
+    {
+      "type": "back_link",
+      "name": "Back to Home Link",
+      "settings": [
+        {
+          "type": "url",
+          "id": "back_url",
+          "label": "Back URL"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "404 Page",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
