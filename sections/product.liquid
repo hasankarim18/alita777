@@ -12,7 +12,7 @@
       </div>
       {% comment %} product info {% endcomment %}
       <div class="relative">
-        <div style="height: fit-content;" class="sticky top-5 p-2 ">
+        <div style="height: fit-content;" class=" top-5 p-2 ">
           {% form 'product', product %}
             {% comment %} vendor {% endcomment %}
             <input type="hidden" name="id" value="{{ current_variant.id  }}">
@@ -22,7 +22,7 @@
                   {% render 'product-vendor-1', product: product %}
                 {% when 'product_title' %}
                   {% render 'product-title-1', product: product %}
-                {% when 'product_price' %}
+                {% when 'price' %}
                   {% render 'product-price-1', current_variant: current_variant %}
                 {% when 'description' %}
                   {% render 'product-description-1', product: product %}
@@ -44,7 +44,7 @@
                     </div>
                   </div>
 
-                {% when 'variant_selector_separate_select' %}
+                {% when 'separate_select' %}
                   {% comment %} variant selector separate select variant_selector_separate_select {% endcomment %}
                   <div class="my-3">
                     <h2>Variant Selector Separate Select</h2>
@@ -74,33 +74,33 @@
                       </div>
                     {% endunless %}
                   </div>
-                {% when 'variant_selector_swatch' %}
+                {% when 'selector_swatch' %}
                   <div>
                     <h2 class="text-2xl">Variant selector swatch</h2>
                   </div>
+                {% when 'add_to_cart' %}
+                  <div class="my-3">
+                    <button
+                      {% if current_variant.available == false %}
+                        disabled
+                      {% endif %}
+                      type="submit"
+                      name="add"
+                      class="w-full px-6 py-4 bg-gray-900 hover:bg-gray-700 cursor-pointer text-white"
+                    >
+                      {%- if current_variant.available == false -%}
+                        Sold out
+                      {%- else -%}
+                        Add to cart
+                      {%- endif -%}
+                    </button>
+                  </div>
                 {% else %}
-
+                  <div>Add Block from customizer</div>
               {% endcase %}
             {% endfor %}
 
             {% comment %} add to cart button {% endcomment %}
-            <div class="my-3">
-              add
-              <button
-                {% if current_variant.available == false %}
-                  disabled
-                {% endif %}
-                type="submit"
-                name="add"
-                class="w-full px-6 py-4 bg-gray-900 hover:bg-gray-700 cursor-pointer text-white"
-              >
-                {%- if current_variant.available == false -%}
-                  Sold out
-                {%- else -%}
-                  Add to cart
-                {%- endif -%}
-              </button>
-            </div>
           {% endform %}
         </div>
       </div>
@@ -129,7 +129,7 @@
       "settings": []
     },
     {
-      "type": "product_price",
+      "type": "price",
       "limit": 1,
       "name": "Product Price",
       "settings": []
@@ -147,15 +147,15 @@
       "settings": []
     },
     {
-      "type": "variant_selector_separate_select",
+      "type": "separate_select",
       "limit": 1,
-      "name": "Variant Selector Separate Select",
+      "name": "Separate Select",
       "settings": []
     },
     {
-      "type": "variant_selector_swatch",
+      "type": "selector_swatch",
       "limit": 1,
-      "name": "Variant Selector Swatch",
+      "name": "Selector Swatch",
       "settings": []
     },
     {

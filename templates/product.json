@@ -10,14 +10,14 @@
         "product_title": {
           "type": "product_title"
         },
-        "product_price": {
-          "type": "product_price"
+        "price": {
+          "type": "price"
         },
         "product_description": {
           "type": "description"
         },
-        "variant_selector_separate_select": {
-          "type": "variant_selector_separate_select"
+        "separate_select": {
+          "type": "separate_select"
         },
         "quantity": {
           "type": "quantity"
@@ -29,9 +29,9 @@
       "block_order": [
         "product_vendor",
         "product_title",
-        "product_price",
+        "price",
         "product_description",
-        "variant_selector_separate_select",
+        "separate_select",
         "quantity",
         "add_to_cart"
       ]
