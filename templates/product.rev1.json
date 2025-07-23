@@ -11,7 +11,7 @@
   "wrapper": "div",
   "sections": {
     "main": {
-      "type": "product",
+      "type": "product-rev",
       "settings": {}
     }
   },
