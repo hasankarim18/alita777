@@ -1,0 +1,10 @@
+<div class="my-3">
+  <span class="text-base text-gray-500">{{ current_variant.price | money_with_currency }} </span>
+  {% comment %} empare at price {% endcomment %}
+  {% if current_variant.compare_at_price > current_variant.price %}
+    <span class="price-sale"
+      ><s>{{ current_variant.compare_at_price | money }}</s></span
+    >
+    <span class="ml-2 px-4 py-2 font-bold bg-red-600 text-white rounded-4xl capitalize">Sale</span>
+  {% endif %}
+</div>

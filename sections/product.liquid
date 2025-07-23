@@ -1,6 +1,5 @@
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
-  assign current_variant_price = current_variant.price
 -%}
 
 <div>
@@ -17,88 +16,73 @@
           {% form 'product', product %}
             {% comment %} vendor {% endcomment %}
             <input type="hidden" name="id" value="{{ current_variant.id  }}">
-            <div class="my-3">
-              <span class="text-s text-gray-500 uppercase">{{ product.vendor }}</span>
-            </div>
-            {% comment %} title {% endcomment %}
-            <div class="my-3 text-3xl text-gray-800">
-              {{ product.title }}
-            </div>
-            <div class="my-3">
-              <span class="text-base text-gray-500">{{ current_variant_price | money_with_currency }} </span>
-              {% comment %} empare at price {% endcomment %}
-              {% if current_variant.compare_at_price > current_variant.price %}
-                <span class="price-sale"
-                  ><s>{{ current_variant.compare_at_price | money }}</s></span
-                >
-                <span class="ml-2 px-4 py-2 font-bold bg-red-600 text-white rounded-4xl capitalize">Sale</span>
-              {% endif %}
-            </div>
-            {% comment %} variant selector all together {% endcomment %}
-            <div class="my-3">
-              <h2>Variant Selector All Together</h2>
-              <select class="p-4 rounded-md border w-full" name="id">
-                {% for variant in product.variants %}
-                  <option
-                    value="{{ variant.id }}"
-                    {% if variant == current_variant %}
-                      selected="selected"
-                    {% endif %}
-                  >
-                    {{ variant.title }} - {{ variant.price | money }}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-            {% comment %} variant selector separate select {% endcomment %}
-            <div class="my-3">
-              <h2>Variant Selector Separate Select</h2>
-              {% unless product.has_only_default_variant %}
-                <div data-url="{{ product.url }}" data-section{{ section.id }}>
-                  {%- for option in product.options_with_values -%}
-                    <label for="option-{{ section.id}}-{{ forloop.index0 }}"> {{ option.name }} </label>
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'vendor' %}
+                  {% render 'product-vendor-1', product: product %}
+                {% when 'product_title' %}
+                  {% render 'product-title-1', product: product %}
+                {% when 'product_price' %}
+                  {% render 'product-price-1', current_variant: current_variant %}
+                {% when 'description' %}
+                  {% render 'product-description-1', product: product %}
+                {% when 'variant_selector_all' %}
+                  {% render 'product-variant-selector-all-1', product: product %}
+                {% when 'quantity' %}
+                  {% comment %} Quantity {% endcomment %}
+                  <div class="my-3">
+                    <label for="quantity-{{ section.id }}">Quantity</label>
                     <div class="my-2">
-                      <select
-                        class="w-full border p-4 "
-                        name="options[{{ option.name |  escape }}]"
-                        id="option-{{ section.id}}-{{ forloop.index0 }}"
+                      <input
+                        class="w-full border px-3 py-3"
+                        type="number"
+                        name="quantity"
+                        id="quantity-{{ section.id }}"
+                        value="1"
+                        min="1"
                       >
-                        {% for value in option.values %}
-                          <option
-                            {% if option.selected_value == value %}
-                              selected
-                            {% endif %}
-                            value="{{ value }}"
-                          >
-                            {{ value }}
-                          </option>
-                        {% endfor %}
-                      </select>
                     </div>
-                  {%- endfor -%}
-                </div>
-              {% endunless %}
-            </div>
-            {% comment %} Quantity {% endcomment %}
-            <div class="my-3">
-              <label for="quantity-{{ section.id }}">Quantity</label>
-              <div class="my-2">
-                <input
-                  class="w-full border px-3 py-3"
-                  type="number"
-                  name="quantity"
-                  id="quantity-{{ section.id }}"
-                  value="1"
-                  min="1"
-                >
-              </div>
-            </div>
-            {% comment %} description {% endcomment %}
-            <div class="my-3">
-              <p>
-                {{ product.description }}
-              </p>
-            </div>
+                  </div>
+
+                {% when 'variant_selector_separate_select' %}
+                  {% comment %} variant selector separate select variant_selector_separate_select {% endcomment %}
+                  <div class="my-3">
+                    <h2>Variant Selector Separate Select</h2>
+                    {% unless product.has_only_default_variant %}
+                      <div data-url="{{ product.url }}" data-section{{ section.id }}>
+                        {%- for option in product.options_with_values -%}
+                          <label for="option-{{ section.id}}-{{ forloop.index0 }}"> {{ option.name }} </label>
+                          <div class="my-2">
+                            <select
+                              class="w-full border p-4 "
+                              name="options[{{ option.name |  escape }}]"
+                              id="option-{{ section.id}}-{{ forloop.index0 }}"
+                            >
+                              {% for value in option.values %}
+                                <option
+                                  {% if option.selected_value == value %}
+                                    selected
+                                  {% endif %}
+                                  value="{{ value }}"
+                                >
+                                  {{ value }}
+                                </option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        {%- endfor -%}
+                      </div>
+                    {% endunless %}
+                  </div>
+                {% when 'variant_selector_swatch' %}
+                  <div>
+                    <h2 class="text-2xl">Variant selector swatch</h2>
+                  </div>
+                {% else %}
+
+              {% endcase %}
+            {% endfor %}
+
             {% comment %} add to cart button {% endcomment %}
             <div class="my-3">
               add
@@ -136,6 +120,54 @@
       "type": "vendor",
       "limit": 1,
       "name": "Prodcut Vendor",
+      "settings": []
+    },
+    {
+      "type": "product_title",
+      "limit": 1,
+      "name": "Product Title",
+      "settings": []
+    },
+    {
+      "type": "product_price",
+      "limit": 1,
+      "name": "Product Price",
+      "settings": []
+    },
+    {
+      "type": "description",
+      "limit": 1,
+      "name": "Description",
+      "settings": []
+    },
+    {
+      "type": "variant_selector_all",
+      "limit": 1,
+      "name": "Variant Selector All",
+      "settings": []
+    },
+    {
+      "type": "variant_selector_separate_select",
+      "limit": 1,
+      "name": "Variant Selector Separate Select",
+      "settings": []
+    },
+    {
+      "type": "variant_selector_swatch",
+      "limit": 1,
+      "name": "Variant Selector Swatch",
+      "settings": []
+    },
+    {
+      "type": "quantity",
+      "limit": 1,
+      "name": "Quantity",
+      "settings": []
+    },
+    {
+      "type": "add_to_cart",
+      "limit": 1,
+      "name": "Add to Cart",
       "settings": []
     }
   ],
