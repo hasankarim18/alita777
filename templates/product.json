@@ -1,41 +1,60 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "wrapper": "div",
   "sections": {
     "main": {
       "type": "product",
       "blocks": {
-        "product_vendor": {
-          "type": "vendor"
+        "vendor_DXkWCQ": {
+          "type": "vendor",
+          "settings": {}
         },
-        "product_title": {
-          "type": "product_title"
+        "product_title_pa9kCj": {
+          "type": "product_title",
+          "settings": {}
         },
-        "price": {
-          "type": "price"
+        "price_FEwND3": {
+          "type": "price",
+          "settings": {}
         },
-        "product_description": {
-          "type": "description"
+        "separate_select_JVtCHJ": {
+          "type": "separate_select",
+          "settings": {}
         },
-        "separate_select": {
-          "type": "separate_select"
+        "quantity_G9DkQP": {
+          "type": "quantity",
+          "settings": {}
         },
-        "quantity": {
-          "type": "quantity"
+        "add_to_cart_P9VjAw": {
+          "type": "add_to_cart",
+          "settings": {}
         },
-        "add_to_cart": {
-          "type": "add_to_cart"
+        "description_fCppER": {
+          "type": "description",
+          "settings": {}
         }
       },
       "block_order": [
-        "product_vendor",
-        "product_title",
-        "price",
-        "product_description",
-        "separate_select",
-        "quantity",
-        "add_to_cart"
-      ]
+        "vendor_DXkWCQ",
+        "product_title_pa9kCj",
+        "price_FEwND3",
+        "separate_select_JVtCHJ",
+        "quantity_G9DkQP",
+        "add_to_cart_P9VjAw",
+        "description_fCppER"
+      ],
+      "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
