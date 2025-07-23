@@ -1,15 +1,126 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign current_variant_price = current_variant.price
+-%}
+
 <div>
-  <div class="max-w-7xl mx-auto my-0">
+  <div class="max-w-7xl mx-auto my-0 relative">
     <h1>Product.liquid</h1>
     <hr>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5  ">
       <div>
         {% render 'product-media', product: product %}
       </div>
       {% comment %} product info {% endcomment %}
-      <div>
-        <h2>Product title</h2>
+      <div class="relative">
+        <div style="height: fit-content;" class="sticky top-5 p-2 ">
+          {% form 'product', product %}
+            {% comment %} vendor {% endcomment %}
+            <input type="hidden" name="id" value="{{ current_variant.id  }}">
+            <div class="my-3">
+              <span class="text-s text-gray-500 uppercase">{{ product.vendor }}</span>
+            </div>
+            {% comment %} title {% endcomment %}
+            <div class="my-3 text-3xl text-gray-800">
+              {{ product.title }}
+            </div>
+            <div class="my-3">
+              <span class="text-base text-gray-500">{{ current_variant_price | money_with_currency }} </span>
+              {% comment %} empare at price {% endcomment %}
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="price-sale"
+                  ><s>{{ current_variant.compare_at_price | money }}</s></span
+                >
+                <span class="ml-2 px-4 py-2 font-bold bg-red-600 text-white rounded-4xl capitalize">Sale</span>
+              {% endif %}
+            </div>
+            {% comment %} variant selector all together {% endcomment %}
+            <div class="my-3">
+              <h2>Variant Selector All Together</h2>
+              <select class="p-4 rounded-md border w-full" name="id">
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == current_variant %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    {{ variant.title }} - {{ variant.price | money }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            {% comment %} variant selector separate select {% endcomment %}
+            <div class="my-3">
+              <h2>Variant Selector Separate Select</h2>
+              {% unless product.has_only_default_variant %}
+                <div data-url="{{ product.url }}" data-section{{ section.id }}>
+                  {%- for option in product.options_with_values -%}
+                    <label for="option-{{ section.id}}-{{ forloop.index0 }}"> {{ option.name }} </label>
+                    <div class="my-2">
+                      <select
+                        class="w-full border p-4 "
+                        name="options[{{ option.name |  escape }}]"
+                        id="option-{{ section.id}}-{{ forloop.index0 }}"
+                      >
+                        {% for value in option.values %}
+                          <option
+                            {% if option.selected_value == value %}
+                              selected
+                            {% endif %}
+                            value="{{ value }}"
+                          >
+                            {{ value }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {%- endfor -%}
+                </div>
+              {% endunless %}
+            </div>
+            {% comment %} Quantity {% endcomment %}
+            <div class="my-3">
+              <label for="quantity-{{ section.id }}">Quantity</label>
+              <div class="my-2">
+                <input
+                  class="w-full border px-3 py-3"
+                  type="number"
+                  name="quantity"
+                  id="quantity-{{ section.id }}"
+                  value="1"
+                  min="1"
+                >
+              </div>
+            </div>
+            {% comment %} description {% endcomment %}
+            <div class="my-3">
+              <p>
+                {{ product.description }}
+              </p>
+            </div>
+            {% comment %} add to cart button {% endcomment %}
+            <div class="my-3">
+              add
+              <button
+                {% if current_variant.available == false %}
+                  disabled
+                {% endif %}
+                type="submit"
+                name="add"
+                class="w-full px-6 py-4 bg-gray-900 hover:bg-gray-700 cursor-pointer text-white"
+              >
+                {%- if current_variant.available == false -%}
+                  Sold out
+                {%- else -%}
+                  Add to cart
+                {%- endif -%}
+              </button>
+            </div>
+          {% endform %}
+        </div>
       </div>
+      {% comment %} product info end {% endcomment %}
     </div>
   </div>
 </div>
@@ -20,6 +131,14 @@
   "tag": "section",
   "class": "section",
   "settings": [],
+  "blocks": [
+    {
+      "type": "vendor",
+      "limit": 1,
+      "name": "Prodcut Vendor",
+      "settings": []
+    }
+  ],
   "presets": [
     {
       "name": "Product Template 1",
