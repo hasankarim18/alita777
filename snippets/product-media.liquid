@@ -1,0 +1,115 @@
+<style>
+  /* 
+  body {
+    background: #000;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  } */
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* body {
+    background: #000;
+    color: #000;
+  } */
+
+  .swiper {
+    width: 100%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .mySwiper2 {
+    height: 80%;
+    width: 100%;
+  }
+
+  .mySwiper {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+
+  .mySwiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .mySwiper .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+{%- liquid
+  assign product = product
+-%}
+<div>
+  {% for media in product.media %}
+    {% case media.media_type %}
+      {% when 'image' %}
+        <div
+          class="product-single__media"
+          data-media-id="{{ media.id }}"
+        >
+          {% comment %} {{ media | image_url: width: 2048, height: 2048 | image_tag }} {% endcomment %}
+          <img src="{{ media |  image_url  }}" width="" height="" class="w-full h-full object-cover" alt="">
+        </div>
+      {% when 'external_video' %}
+        <div
+          class="product-single__media"
+          data-media-id="{{ media.id }}"
+        >
+          {{ media | external_video_tag }}
+        </div>
+      {% when 'video' %}
+        <div class="product-single__media" data-media-id="{{ media.id }}">
+          {{ media | video_tag: controls: true, class: 'w-full h-80 object-cover' }}"
+        </div>
+
+      {% when 'model' %}
+        <div class="product-single__media" style="padding-top: 100%" data-media-id="{{ media.id }}">
+          {{ media | model_viewer_tag }}
+        </div>
+      {% else %}
+        <div class="product-single__media" style="padding-top: 100%;" data-media-id="{{ media.id }}">
+          {{ media | media_tag }}
+        </div>
+    {% endcase %}
+  {% endfor %}
+</div>

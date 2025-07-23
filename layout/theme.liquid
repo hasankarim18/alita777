@@ -10,6 +10,8 @@
     {{ content_for_header }}
     <!-- Header hook for plugins -->
     {{ 'application.css' | asset_url | stylesheet_tag }}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    <script defer src="{{ 'swiper-bundle.min.js' |  asset_url   }}"></script>
     {% comment %} {{ 'application.js' | asset_url | script_tag }} {% endcomment %}
   </head>
   <body class="">

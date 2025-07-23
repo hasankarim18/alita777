@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "shopify theme dev",
-    "store": "shopify theme dev --store alita777",
+    "store": "shopify theme dev --store fabrilite",
     "tailwind": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/application.css --watch"
   },
   "keywords": [],

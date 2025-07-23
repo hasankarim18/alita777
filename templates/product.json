@@ -1,0 +1,9 @@
+{
+  "wrapper": "div",
+  "sections": {
+    "main": {
+      "type": "product"
+    }
+  },
+  "order": ["main"]
+}

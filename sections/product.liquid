@@ -1,0 +1,30 @@
+<div>
+  <div class="max-w-7xl mx-auto my-0">
+    <h1>Product.liquid</h1>
+    <hr>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        {% render 'product-media', product: product %}
+      </div>
+      {% comment %} product info {% endcomment %}
+      <div>
+        <h2>Product title</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Template 1",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Template 1",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
